@@ -26,7 +26,7 @@ class Admin():
     def edit_price_adm(self, catalog: Catalog, pid: int, new_price: float) -> tuple[bool, str]:
         if not catalog.get_by_id(pid):
             return False, "Product not found!"
-        if new_price <= 0:
+        if 9999<= new_price <= 0:
             return False, "Invalid price!"
         catalog.get_by_id(pid).cost = new_price
         self.storage.save_products(catalog.all())

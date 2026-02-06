@@ -23,8 +23,8 @@ while True:
             print(f"{p.id: <3}{p.name: <12}{p.cost: <10}{p.remains: <10}")
     if choice == "2":  #add to cart
         try:
-            pid = int(input("Enter ID of product: "))
-            qty = int(input("Enter quantity: "))
+            pid = int(input("Enter ID of product: ").strip())
+            qty = int(input("Enter quantity: ").strip())
         except ValueError:
             print("Invalid input!")
             print("Please enter correct data!")
@@ -47,8 +47,8 @@ while True:
 
     if choice == "4":  #remove from cart
         try:
-            pid = int(input("Enter ID of product: "))
-            qty = int(input("Enter quantity: "))
+            pid = int(input("Enter ID of product: ").strip())
+            qty = int(input("Enter quantity: ").strip())
         except ValueError:
             print("Invalid input!")
             print("Please enter correct data!")
@@ -71,7 +71,7 @@ while True:
         print("Order successfully completed!")
 
     if choice == "6":  #search
-        find = catalog.find_by_name(input("Enter product name: "))
+        find = catalog.find_by_name(input("Enter product name: ").strip())
         if not find:
             print("Product not found!")
         else:
@@ -79,8 +79,8 @@ while True:
 
     if choice == "7":  #filter by price
         try:
-            min_price = int(input("Enter minimum price: "))
-            max_price = int(input("Enter maximum price: "))
+            min_price = int(input("Enter minimum price: ").strip())
+            max_price = int(input("Enter maximum price: ").strip())
         except ValueError:
             print("Invalid input!")
             print("Please enter correct data! Numbers only!")
@@ -102,7 +102,7 @@ while True:
     if choice == "9":  #admin menu
         while True:
             admin_menu()
-            choice_admin = input("Choose option: ")
+            choice_admin = input("Choose option: ").strip()
             if choice_admin == "0":
                 break
             if choice_admin == "1":  #add product
@@ -112,14 +112,27 @@ while True:
                     print(f"{p.id: <3}{p.name: <12}{p.cost: <10}{p.remains: <10}")
                 print("\nAdding new product")
                 try:
-                    pid = int(input("Enter the id of product"))
-                    name = input("Enter product name: ")
-                    price = float(input("Enter product price: "))
-                    quantity = int(input("Enter product quantity: "))
+                    pid = int(input("Enter the id of product").strip())
+                    if pid <= 0:
+                        raise ValueError
                 except ValueError:
-                    print("Invalid input!")
-                    print("Please enter correct data!")
+                    print("Not correct ID, enter positive integer number!")
                     continue
+                name = input("Enter product name: ").strip().capitalize()
+                try:
+                    price = float(input("Enter product price: ").strip())
+                    if price <= 0:
+                        raise ValueError
+                except ValueError:
+                    print("Not correct price, enter number!")
+                    continue
+                try:
+                    quantity = int(input("Enter product quantity: "))
+                    if quantity <= 0:
+                        raise ValueError
+                except ValueError:
+                    print("Not correct quantity, enter integer number!")
+
                 x,msg = admin.add_product_adm(catalog,pid,name,price,quantity)
                 print (msg)
             if choice_admin == "2":  #edit price
@@ -129,8 +142,12 @@ while True:
                     print(f"{p.id: <3}{p.name: <12}{p.cost: <10}{p.remains: <10}")
                 print("\nEditing product price")
                 try:
-                    pid = int(input("Enter the id of product"))
-                    price = float(input("Enter product price: "))
+                    pid = int(input("Enter the id of product").strip())
+                    if pid <= 0:
+                        raise ValueError
+                    price = float(input("Enter product price: ").strip())
+                    if price <= 0:
+                        raise ValueError
                 except ValueError:
                     print("Invalid input!")
                     print("Please enter correct data!")
@@ -144,8 +161,12 @@ while True:
                     print(f"{p.id: <3}{p.name: <12}{p.cost: <10}{p.remains: <10}")
                 print("\nEditing product quantity")
                 try:
-                    pid = int(input("Enter the id of product"))
-                    qty = int(input("Enter product quantity: "))
+                    pid = int(input("Enter the id of product").strip())
+                    if pid <= 0:
+                        raise ValueError
+                    qty = int(input("Enter product quantity: ").strip())
+                    if qty <= 0:
+                        raise ValueError
                 except ValueError:
                     print("Invalid input!")
                     continue
