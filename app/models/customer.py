@@ -8,7 +8,7 @@ class Customer(Base):
     id: Mapped[int_big] = mapped_column(primary_key=True)
     name: Mapped[str_50] = mapped_column(nullable=False)
     email: Mapped[str_100] = mapped_column(nullable=False, unique=True)
-    password: Mapped[str_255] = mapped_column(nullable=False)
+    password_hash: Mapped[str_255] = mapped_column(nullable=False)
     registered_at: Mapped[date_] = mapped_column(nullable=False)
     city: Mapped[str_50] = mapped_column(nullable=False)
 
