@@ -1,6 +1,6 @@
 from app.db.base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, CheckConstraint
 from app.utils.utils import int_big, date_, str_10
 
 class Payment(Base):
@@ -14,3 +14,7 @@ class Payment(Base):
 
     #relationship
     orders = relationship("Order", back_populates="payments")
+
+    __table_args__ = (
+        CheckConstraint("amount >= 0", name="payments_amount_check"),
+    )

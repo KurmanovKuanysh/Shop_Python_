@@ -1,6 +1,6 @@
 from app.db.base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, CheckConstraint
 from app.utils.utils import int_big, str_50, numeric_10_2
 
 class Product(Base):
@@ -18,3 +18,8 @@ class Product(Base):
     categories = relationship("Category", back_populates="products")
     order_items = relationship("OrderItem", back_populates="products")
     cart_items = relationship("CartItem", back_populates="products")
+
+    __table_args__ = (
+        CheckConstraint("price >= 0", name="products_price_check"),
+        CheckConstraint("remains >= 0", name="products_remains_check"),
+    )

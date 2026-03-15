@@ -1,6 +1,6 @@
 from app.db.base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey
+from sqlalchemy import ForeignKey, CheckConstraint
 from app.utils.utils import int_big, numeric_10_2, str_30
 
 class Order(Base):
@@ -15,3 +15,7 @@ class Order(Base):
     #relationship
     customer = relationship("Customer", back_populates="orders")
     order_items = relationship("OrderItem", back_populates="orders")
+
+    __table_args__ = (
+        CheckConstraint("total_price >= 0", name="orders_total_price_check"),
+    )
