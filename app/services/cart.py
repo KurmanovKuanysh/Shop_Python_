@@ -1,38 +1,54 @@
-from app.models.cart_items import CartItem
-from typing import List
+from sqlalchemy.orm import Session
+from sqlalchemy import select
+from app.models import Product, CartItem, Cart
 
-from app.models.products import Product
 
+class CartService:
+    def __init__(self, session: Session):
+        self.session = session
 
-class Cart:
-    def __init__(self):
-        self.items: List[CartItem] = []
-    def add(self, product: Product, qty: int) -> bool:
-        if qty <= 0:
-            return False
-        for item in self.items:
-            if item.product.id == product.id:
-                item.qty += qty
-                return True
-        self.items.append(CartItem(product, qty))
-        return True
-    def remove(self, product_id: int, qty: int) -> None:
-        for item in self.items:
-            if item.product.id == product_id:
-                item.qty -= qty
-                if item.qty <= 0:
-                    self.items.remove(item)
-                return
-    def total(self) -> float:
-        total = 0.0
-        for item in self.items:
-            total += item.product.cost * item.qty
-        return total
+    def get_cart_by_customer_id(self, customer_id: int) -> Cart | None:
+        return self.session.scalar(
+            select(Cart)
+            .where(Cart.customer_id == customer_id)
+        )
 
-    def is_empty(self) -> bool:
-        if len(self.items) == 0:
-            return True
-        return False
+    def create_cart(self, customer_id: int) -> Cart:
+        cart = Cart(customer_id=customer_id)
+        self.session.add(cart)
+        self.session.commit()
+        self.session.refresh(cart)
+        return cart
 
-    def clear(self) -> None:
-        self.items = []
+    def get_or_create_cart(self, customer_id: int) -> Cart:
+        cart = self.session.scalar(
+            select(Cart)
+            .where(Cart.customer_id == customer_id)
+        )
+        if cart is None:
+            cart = Cart(customer_id=customer_id)
+            self.session.add(cart)
+            self.session.commit()
+            self.session.refresh(cart)
+
+        return cart
+
+    def clear_cart(self, cart: Cart) -> None:
+        try:
+            self.session.delete(cart)
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
+    def delete_cart_item(self, cart_item: CartItem) -> None:
+        try:
+            self.session.delete(cart_item)
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
+    def delete_cart(self, cart: Cart) -> None:
+        self.session.delete(cart)
+        self.session.commit()
