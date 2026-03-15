@@ -1,7 +1,7 @@
-from models.cart_item import CartItem
+from app.models.cart_items import CartItem
 from typing import List
 
-from models.product import Product
+from app.models.products import Product
 
 
 class Cart:

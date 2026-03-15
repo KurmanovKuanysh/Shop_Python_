@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from models.cart_item import CartItem
+from app.models.cart_items import CartItem
 
 
 @dataclass

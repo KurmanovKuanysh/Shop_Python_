@@ -1,10 +1,10 @@
-from services.order_service import OrderService
-from services.catalog_service import load_catalog
+from app.services.order import OrderService
+from app.services.catalog_service import load_catalog
 from storage import Storage
-from models.cart import Cart
-from services.menu_loader import main_menu, admin_menu, sort_menu
-from models.catalog import Catalog
-from models.admin import Admin
+from app.models.cart import Cart
+from app.services.menu_loader import main_menu, admin_menu, sort_menu
+from app.models.catalog import Catalog
+from app.services.admin_service import Admin
 
 storage = Storage()
 catalog = Catalog()

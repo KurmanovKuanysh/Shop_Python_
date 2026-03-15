@@ -1,6 +1,6 @@
-from models.cart import Cart
-from models.catalog import Catalog
-from models.order import Order
+from app.models.cart import Cart
+from app.models.catalog import Catalog
+from app.models.orders import Order
 from storage import Storage
 from datetime import datetime
 

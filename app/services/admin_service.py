@@ -1,6 +1,6 @@
-from models.product import Product
+from app.models.products import Product
 from storage import Storage
-from models.catalog import Catalog
+from app.models.catalog import Catalog
 
 class Admin():
     def __init__(self, storage: Storage):
