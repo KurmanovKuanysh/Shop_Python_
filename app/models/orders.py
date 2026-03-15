@@ -15,6 +15,7 @@ class Order(Base):
     #relationship
     customer = relationship("Customer", back_populates="orders")
     order_items = relationship("OrderItem", back_populates="orders")
+    payments = relationship("Payment", back_populates="orders")
 
     __table_args__ = (
         CheckConstraint("total_price >= 0", name="orders_total_price_check"),

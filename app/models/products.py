@@ -12,7 +12,7 @@ class Product(Base):
     remains: Mapped[int] = mapped_column(nullable=False)
     category_id: Mapped[int_big] = mapped_column(ForeignKey("categories.id"), nullable=False)
     is_active: Mapped[bool] = mapped_column(nullable=False)
-    description: Mapped[str_50] = mapped_column(nullable=True)\
+    description: Mapped[str_50] = mapped_column(nullable=True)
 
     #relationship
     categories = relationship("Category", back_populates="products")
