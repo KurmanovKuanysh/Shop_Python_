@@ -1,7 +1,8 @@
 from typing_extensions import Annotated
 from sqlalchemy.orm import mapped_column
-from sqlalchemy import Text, BIGINT, String, Numeric, Date
+from sqlalchemy import Text, BIGINT, String, Numeric, DateTime
 from datetime import datetime
+
 
 int_big = Annotated[int, mapped_column(BIGINT)]
 
@@ -15,5 +16,5 @@ text = Annotated[str, mapped_column(Text)]
 
 numeric_10_2 = Annotated[float, mapped_column(Numeric(10,2))]
 
-date_ = Annotated[datetime, mapped_column(Date)]
+date_ = Annotated[datetime, mapped_column(DateTime)]
 
